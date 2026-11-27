@@ -2,6 +2,13 @@
 
 This project follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [Unreleased]
+
+### Fixed
+
+- An ElevenLabs voice that needs a paid plan, such as a Voice Library voice on a free plan, now says so. Before, ReGlass
+  reported that the character quota was used up.
+
 ## [0.1.0] - 2026-11-23
 
 ### Added

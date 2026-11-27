@@ -128,6 +128,7 @@ public final class ElevenLabsVoice: Voice, @unchecked Sendable {
                 switch error {
                 case .unauthorized: return .failed("ElevenLabs didn't accept this key, or it can't do text to speech.")
                 case .quota: return .failed("The ElevenLabs character quota is used up.")
+                case .paidPlanRequired: return .failed(error.reason)
                 case .http(404): return .failed("That voice isn't in this ElevenLabs account.")
                 default: return .failed("ElevenLabs answered with an error (\(status)).")
                 }
@@ -496,6 +497,8 @@ public final class ElevenLabsVoice: Voice, @unchecked Sendable {
         } catch {}
         let detail = (try? JSONValue.parse(data))?["detail"]
         let code = detail?["status"]?.string ?? detail?["code"]?.string ?? ""
+        // ElevenLabs also answers 402 when the plan doesn't cover the request, such as a library voice on a free plan.
+        if detail?["code"]?.string == "paid_plan_required" { return .paidPlanRequired }
         switch status {
         case 401, 403:
             return code.contains("quota") || code.contains("credit") ? .quota : .unauthorized
@@ -518,6 +521,7 @@ public final class ElevenLabsVoice: Voice, @unchecked Sendable {
 
     private static func classify(_ error: String) -> VoiceError {
         let lowered = error.lowercased()
+        if lowered.contains("paid_plan_required") || lowered.contains("paid plan") { return .paidPlanRequired }
         if lowered.contains("quota") || lowered.contains("credit") || lowered.contains("payment") { return .quota }
         if lowered.contains("auth") || lowered.contains("api_key") || lowered.contains("permission") { return .unauthorized }
         if lowered.contains("rate") || lowered.contains("concurren") { return .rateLimited }

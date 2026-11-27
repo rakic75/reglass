@@ -140,6 +140,8 @@ public enum VoiceError: Error, Equatable, Sendable {
     case unauthorized
     /// The character quota or credits ran out.
     case quota
+    /// The voice needs a paid plan (`paid_plan_required`): a free account can't use library voices via the API.
+    case paidPlanRequired
     case rateLimited
     case http(Int)
     case network
@@ -153,6 +155,7 @@ public enum VoiceError: Error, Equatable, Sendable {
         case .keyLocked: return "key locked until first unlock"
         case .unauthorized: return "key not accepted"
         case .quota: return "quota used up"
+        case .paidPlanRequired: return "voice needs a paid plan"
         case .rateLimited: return "rate limited"
         case .http(let status): return "HTTP \(status)"
         case .network: return "network error"
@@ -169,6 +172,7 @@ public enum VoiceError: Error, Equatable, Sendable {
         case .keyLocked: return "The iPhone hasn't been unlocked since it restarted."
         case .unauthorized: return "ElevenLabs didn't accept the key."
         case .quota: return "The ElevenLabs character quota is used up."
+        case .paidPlanRequired: return "This ElevenLabs voice needs a paid plan. Choose one of ElevenLabs' default voices."
         case .rateLimited: return "ElevenLabs asked ReGlass to slow down."
         case .http, .synthesis: return "ElevenLabs had a problem."
         case .network, .timedOut: return "ElevenLabs couldn't be reached."

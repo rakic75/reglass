@@ -77,6 +77,8 @@ characters, without playing it. Without one, it checks speech to text, which cos
 ### 3. Choose a voice
 
 1. In ElevenLabs, open your voices and pick one. A voice from the Voice Library has to be added to your voices first.
+   On a free plan, ElevenLabs lets apps use only its default voices, not Voice Library voices. With a library voice,
+   Test says the voice needs a paid plan.
 2. Copy its voice ID: a code of about 20 letters and digits, in the voice's details.
 3. In Voice and speech, choose **ElevenLabs** under Voice and paste the ID.
 4. Tap **Test**. ReGlass says a short line in that voice.
